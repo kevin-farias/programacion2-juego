@@ -11,13 +11,16 @@ let survivalTime = 0;
 let breathTime = 5.0;
 let breathInterval, survivalInterval;
 
+let zombieSpeed = 0.5;           // Velocidad inicial de acercamiento
+let baseRetreatSpeed = 0.2;      // Velocidad de alejamiento al meditar
+
 function moveZombie() {
   if (gameOver) return;
 
   if (meditating) {
-    zombiePos = Math.max(0, zombiePos - 0.2);
+    zombiePos = Math.max(0, zombiePos - baseRetreatSpeed);
   } else {
-    zombiePos = Math.min(70, zombiePos + 0.5);
+    zombiePos = Math.min(70, zombiePos + zombieSpeed);
   }
 
   zombie.style.left = zombiePos + "%";
@@ -57,6 +60,9 @@ document.body.addEventListener('mouseup', () => {
   breathText.innerText = "Tiempo restante de respiración: 5.0s";
   clearInterval(breathInterval);
   statusText.innerText = "¡Cuidado! Has salido de tu zen.";
+
+  // Aumenta la dificultad
+  zombieSpeed += 0.05;
 });
 
 // Cronómetro de supervivencia
